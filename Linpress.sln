@@ -5,16 +5,48 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linpress", "Linpress\Linpress.csproj", "{B1D0D5F1-275C-4743-A12B-E64C536977EE}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Linpress.Bootstrapper", "Linpress.Bootstrapper\Linpress.Bootstrapper.wixproj", "{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Linpress.Setup", "Linpress.Setup\Linpress.Setup.wixproj", "{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linpress.Bootstrapper.UI", "Linpress.Bootstrapper.UI\Linpress.Bootstrapper.UI.csproj", "{10952B6A-D239-4715-8149-6493EE67B360}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Debug|x86.Build.0 = Debug|Any CPU
 		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1D0D5F1-275C-4743-A12B-E64C536977EE}.Release|x86.Build.0 = Release|Any CPU
+		{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}.Debug|x86.ActiveCfg = Debug|x86
+		{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}.Debug|x86.Build.0 = Debug|x86
+		{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}.Release|Any CPU.ActiveCfg = Release|x86
+		{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}.Release|x86.ActiveCfg = Release|x86
+		{FDA16423-49F7-4FF6-BDF4-DBD5EE0DB88C}.Release|x86.Build.0 = Release|x86
+		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Debug|x86.ActiveCfg = Debug|x86
+		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Debug|x86.Build.0 = Debug|x86
+		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Release|Any CPU.ActiveCfg = Release|x86
+		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Release|x86.ActiveCfg = Release|x86
+		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Release|x86.Build.0 = Release|x86
+		{10952B6A-D239-4715-8149-6493EE67B360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Debug|x86.Build.0 = Debug|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Release|x86.ActiveCfg = Release|Any CPU
+		{10952B6A-D239-4715-8149-6493EE67B360}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

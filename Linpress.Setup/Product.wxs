@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="0F697425-DA78-4A31-9B9B-972B166DC255" Name="Linpress" Language="1033" Version="1.0.0.0" Manufacturer="Kodnix" UpgradeCode="b66b4056-45fc-4343-a158-6841f0204f2c">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed."/>
+		<MediaTemplate EmbedCab="yes"/>
+
+		<Feature Id="ProductFeature" Title="Linpress" Level="1">
+			<ComponentGroupRef Id="ProductComponents"/>
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Linpress"/>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="25BF13CA-B5C7-43D1-AFD1-E27AF35EBEF5">
+        <File Source="Sources\Programs\GSharp.Base.dll"/>
+        <File Source="Sources\Programs\GSharp.Compile.dll"/>
+        <File Source="Sources\Programs\GSharp.Graphic.dll"/>
+        <File Source="Sources\Programs\GSharp.Manager.dll"/>
+        <File Source="Sources\Programs\ICSharpCode.AvalonEdit.dll"/>
+        <File Source="Sources\Programs\ICSharpCode.WpfDesign.Designer.dll"/>
+        <File Source="Sources\Programs\ICSharpCode.WpfDesign.dll"/>
+        <File Source="Sources\Programs\ICSharpCode.WpfDesign.XamlDom.dll"/>
+        <File Source="Sources\Programs\Linpress.exe"/>
+        <File Source="Sources\Programs\Xceed.Wpf.AvalonDock.dll"/>
+        <File Source="Sources\Programs\Xceed.Wpf.AvalonDock.Themes.VS2013.dll"/>
+      </Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

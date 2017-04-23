@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Bundle Name="Linpress" Version="1.0.0.0" Manufacturer="Kodnix" UpgradeCode="fda16423-49f7-4ff6-bdf4-dbd5ee0db88c">
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense" />
+
+		<Chain>
+      <MsiPackage SourceFile="Sources\Linpress.Setup.msi"/>
+		</Chain>
+	</Bundle>
+</Wix>
