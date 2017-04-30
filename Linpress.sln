@@ -9,7 +9,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Linpress.Bootstrapper", "Li
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Linpress.Setup", "Linpress.Setup\Linpress.Setup.wixproj", "{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linpress.Bootstrapper.Shell", "Linpress.Bootstrapper.Shell\Linpress.Bootstrapper.Shell.csproj", "{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linpress.Bootstrapper.Shell", "Linpress.Bootstrapper.Shell\Linpress.Bootstrapper.Shell.csproj", "{13416061-0ED9-402D-B882-08080839B34F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,14 +39,14 @@ Global
 		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Release|Any CPU.ActiveCfg = Release|x86
 		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Release|x86.ActiveCfg = Release|x86
 		{1C2052FF-0AB9-40F9-BC55-00CCE90F9C16}.Release|x86.Build.0 = Release|x86
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Debug|x86.Build.0 = Debug|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Release|x86.ActiveCfg = Release|Any CPU
-		{0B0AC293-729B-4BB9-B92F-9F4A0B6E15B8}.Release|x86.Build.0 = Release|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Debug|x86.Build.0 = Debug|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Release|x86.ActiveCfg = Release|Any CPU
+		{13416061-0ED9-402D-B882-08080839B34F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
