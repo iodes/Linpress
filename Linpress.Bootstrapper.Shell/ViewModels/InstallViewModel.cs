@@ -3,9 +3,7 @@ using Linpress.Bootstrapper.Shell.Models;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace Linpress.Bootstrapper.Shell.ViewModels
@@ -13,14 +11,17 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
     public class InstallViewModel : BaseModel
     {
         #region 객체
-        private Dictionary<string, int> executingPackageOrderIndex;
-        private BootstrapperApplicationModel model;
-        private bool isUnstalling = false;
-        private InstallState installState;
         public UpdateState updateState;
+        private InstallState installState;
+        private int cacheProgress;
+        private int executeProgress;
+        private bool isUnstalling = false;
+        private Dictionary<string, int> executingPackageOrderIndex;
         #endregion
 
         #region 속성
+        public BootstrapperApplicationModel Model { get; set; }
+
         public string Message
         {
             get
@@ -50,19 +51,19 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
         }
         private InstallState _State;
 
-        public string PackageID
+        public string PackageId
         {
             get
             {
-                return _PackageID;
+                return _PackageId;
             }
             set
             {
-                _PackageID = value;
+                _PackageId = value;
                 RaisePropertyChanged();
             }
         }
-        private string _PackageID;
+        private string _PackageId;
 
         public bool Canceled
         {
@@ -76,7 +77,7 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
                 RaisePropertyChanged();
             }
         }
-        private bool _Canceled;
+        private bool _Canceled = false;
 
         public Version Version
         {
@@ -96,7 +97,7 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             set
             {
                 _Username = value;
-                model.SetBurnVariable("Username", Username);
+                Model.SetBurnVariable("Username", Username);
             }
         }
         private string _Username;
@@ -116,7 +117,7 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             {
                 _Progress = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged("Persent");
+                OnPropertyChanged("Persent");
             }
 
         }
@@ -249,7 +250,7 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
         {
             get
             {
-                return _RepairCommand ?? (_RepairCommand = new RelayCommand(param => model.PlanAction(LaunchAction.Repair), param => State == InstallState.Present));
+                return _RepairCommand ?? (_RepairCommand = new RelayCommand(param => Model.PlanAction(LaunchAction.Repair), param => State == InstallState.Present));
             }
         }
         private ICommand _RepairCommand;
@@ -275,6 +276,213 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             Current,
             Available,
             Failed,
+        }
+        #endregion
+
+        #region 이벤트
+        private void CacheComplete(object sender, CacheCompleteEventArgs e)
+        {
+            lock (this)
+            {
+                cacheProgress = 100;
+                Progress = (cacheProgress + executeProgress) / Phases;
+            }
+        }
+
+        private void CacheAcquireProgress(object sender, CacheAcquireProgressEventArgs e)
+        {
+            lock (this)
+            {
+                cacheProgress = e.OverallPercentage;
+                Progress = (cacheProgress + executeProgress) / Phases;
+                e.Result = Canceled ? Result.Cancel : Result.Ok;
+            }
+        }
+
+        private void ExecuteProgress(object sender, ExecuteProgressEventArgs e)
+        {
+            lock (this)
+            {
+                executeProgress = e.OverallPercentage;
+                Progress = (cacheProgress + executeProgress) / 2;
+
+                if (BootstrapperProgram.Model.Command.Display == Display.Embedded)
+                {
+                    BootstrapperProgram.Model.Engine.SendEmbeddedProgress(e.ProgressPercentage, Progress);
+                }
+
+                e.Result = Canceled ? Result.Cancel : Result.Ok;
+            }
+        }
+
+        private void ExecuteMsiMessage(object sender, ExecuteMsiMessageEventArgs e)
+        {
+            lock (this)
+            {
+                if (e.MessageType == InstallMessage.ActionStart)
+                {
+                    Message = e.Message;
+                }
+
+                e.Result = Canceled ? Result.Cancel : Result.Ok;
+            }
+        }
+
+        private void PlanBegin(object sender, PlanBeginEventArgs e)
+        {
+            lock (this)
+            {
+                if (InstallEnabled)
+                {
+                    _Phases = (LaunchAction.Layout == BootstrapperProgram.Model.PlannedAction) ? 1 : 2;
+                }
+                else
+                {
+                    LabelBack = false;
+                }
+
+                InstallText = "";
+                RepairText = "";
+                OnPropertyChanged("Phases");
+                OnPropertyChanged("InstallEnabled");
+                OnPropertyChanged("InstallText");
+                OnPropertyChanged("RepairText");
+                executingPackageOrderIndex.Clear();
+            }
+        }
+
+        private void PlanComplete(object sender, PlanCompleteEventArgs e)
+        {
+            if (State == InstallState.Cancelled)
+            {
+                BootstrapperProgram.Dispatcher.InvokeShutdown();
+                return;
+            }
+
+            State = InstallState.Applying;
+            Model.ApplyAction();
+        }
+
+        private void PlanPackageComplete(object sender, PlanPackageCompleteEventArgs e)
+        {
+            if (ActionState.None != e.Execute)
+            {
+                lock (this)
+                {
+                    Debug.Assert(!executingPackageOrderIndex.ContainsKey(e.PackageId));
+                    executingPackageOrderIndex.Add(e.PackageId, executingPackageOrderIndex.Count);
+                }
+            }
+        }
+
+        private void ApplyBegin(object sender, ApplyBeginEventArgs e)
+        {
+            State = InstallState.Applying;
+            OnPropertyChanged("ProgressEnabled");
+            OnPropertyChanged("CancelEnabled");
+        }
+
+        private void ApplyProgress(object sender, ProgressEventArgs e)
+        {
+            lock (this)
+            {
+                e.Result = Canceled ? Result.Cancel : Result.Ok;
+            }
+        }
+
+        private void ApplyComplete(object sender, ApplyCompleteEventArgs e)
+        {
+            Model.FinalResult = e.Status;
+            State = InstallState.Applied;
+            isUnstalling = false;
+
+            OnPropertyChanged("CompleteEnabled");
+            OnPropertyChanged("ProgressEnabled");
+        }
+
+        private void ExecutePackageBegin(object sender, ExecutePackageBeginEventArgs e)
+        {
+            if (State == InstallState.Cancelled)
+            {
+                e.Result = Result.Cancel;
+            }
+        }
+
+        private void ExecutePackageComplete(object sender, ExecutePackageCompleteEventArgs e)
+        {
+            if (State == InstallState.Cancelled)
+            {
+                e.Result = Result.Cancel;
+            }
+        }
+
+        private void DetectPackageComplete(object sender, DetectPackageCompleteEventArgs e)
+        {
+            PackageId = e.PackageId;
+            if (e.PackageId.Equals("DialogView", StringComparison.Ordinal))
+            {
+                State = e.State == PackageState.Present ? InstallState.Present : InstallState.NotPresent;
+            }
+        }
+        #endregion
+
+        #region 생성자
+        public InstallViewModel(BootstrapperApplicationModel model)
+        {
+            Model = model;
+            State = InstallState.Initializing;
+            executingPackageOrderIndex = new Dictionary<string, int>();
+
+            InstallCommand = new RelayCommand(param =>
+            Model.PlanAction(LaunchAction.Install),
+            param => State == InstallState.NotPresent);
+
+            UninstallCommand = new RelayCommand(param =>
+            {
+                Model.PlanAction(LaunchAction.Uninstall);
+                isUnstalling = true;
+            },
+            param => State == InstallState.Present);
+
+            CancelCommand = new RelayCommand(param =>
+            {
+                Model.LogMessage("Cancelling...");
+                if (State == InstallState.Applying)
+                {
+                    State = InstallState.Cancelled;
+                }
+                else
+                {
+                    BootstrapperProgram.Dispatcher.InvokeShutdown();
+                }
+            },
+            param => State != InstallState.Cancelled);
+
+            WireUpEventHandlers(Model);
+        }
+        #endregion
+
+        #region 내부 함수
+        private void WireUpEventHandlers(BootstrapperApplicationModel model)
+        {
+            model.Application.CacheComplete += CacheComplete;
+            model.Application.CacheAcquireProgress += CacheAcquireProgress;
+
+            model.Application.ExecuteProgress += ExecuteProgress;
+            model.Application.ExecuteMsiMessage += ExecuteMsiMessage;
+
+            model.Application.PlanBegin += PlanBegin;
+            model.Application.PlanComplete += PlanComplete;
+            model.Application.PlanPackageComplete += PlanPackageComplete;
+
+            model.Application.ApplyBegin += ApplyBegin;
+            model.Application.Progress += ApplyProgress;
+            model.Application.ApplyComplete += ApplyComplete;
+
+            model.Application.ExecutePackageBegin += ExecutePackageBegin;
+            model.Application.ExecutePackageComplete += ExecutePackageComplete;
+
+            model.Application.DetectPackageComplete += DetectPackageComplete;
         }
         #endregion
     }

@@ -8,7 +8,7 @@
 
 		<Chain>
       <PackageGroupRef Id="NetFx45Redist"/>
-      <MsiPackage SourceFile="Sources\Linpress.Setup.msi"/>
+      <MsiPackage Id="DialogView" SourceFile="Sources\Linpress.Setup.msi"/>
 		</Chain>
 	</Bundle>
 </Wix>
