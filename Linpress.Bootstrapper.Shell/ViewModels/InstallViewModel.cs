@@ -34,7 +34,7 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
                 RaisePropertyChanged();
             }
         }
-        private string _Message;
+        private string _Message = "Nothing";
 
         public InstallState State
         {
@@ -45,7 +45,6 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             set
             {
                 _State = value;
-                Message = "Status: " + State;
                 RaisePropertyChanged();
             }
         }

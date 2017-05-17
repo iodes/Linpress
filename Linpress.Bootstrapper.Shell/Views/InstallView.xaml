@@ -5,17 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Linpress.Bootstrapper.Shell.Views"
         mc:Ignorable="d"
-        Title="InstallView" Height="300" Width="300">
-    
+        Title="Linpress" Height="180" Width="400" Background="#FF1E1E1E" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
     <Grid>
-        <StackPanel>
-            <Label Content="{Binding Message}" />
-            <Button Command="{Binding InstallCommand}">Install</Button>
-            <Button Command="{Binding UninstallCommand}">Uninstall</Button>
-            <Button Command="{Binding CancelCommand}">Cancel</Button>
-            <Label VerticalAlignment="Center">Progress:</Label>
-            <Label Content="{Binding Progress}" />
-            <ProgressBar Width="200" Height="30" Value="{Binding Progress}" Minimum="0" Maximum="100" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#FF333337">
+            <TextBlock Text="Linpress Installer" Foreground="White" VerticalAlignment="Center" Margin="8,0,0,0"/>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock TextAlignment="Center" Foreground="White">
+                    응용 프로그램을 구성할 준비가 되었습니다.<LineBreak/>
+                    계속하려면 원하는 작업을 선택하여 주십시오.
+                </TextBlock>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Button Content="설치" Command="{Binding InstallCommand}" Width="50" Margin="0,0,10,0"/>
+                    <Button Content="제거" Command="{Binding UninstallCommand}" Width="50" Margin="0,0,10,0"/>
+                    <Button Content="취소" Command="{Binding CancelCommand}" Width="50"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <ProgressBar Value="{Binding Progress}" Minimum="0" Maximum="100" BorderThickness="0" BorderBrush="{x:Null}" Foreground="#FF007ACC" Background="#FF333337"/>
+
+            <TextBlock Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="8,0">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}% ({1} / {2})">
+                        <Binding Path="Progress"/>
+                        <Binding Path="State"/>
+                        <Binding Path="Message"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
     </Grid>
 </Window>
