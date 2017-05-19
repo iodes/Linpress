@@ -234,6 +234,20 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             }
         }
         private bool _LabelBack = true;
+
+        public string Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                _Description = value;
+                RaisePropertyChanged();
+            }
+        }
+        private string _Description;
         #endregion
 
         #region 명령
@@ -432,30 +446,38 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             State = InstallState.Initializing;
             executingPackageOrderIndex = new Dictionary<string, int>();
 
-            InstallCommand = new RelayCommand(param =>
-            Model.PlanAction(LaunchAction.Install),
-            param => State == InstallState.NotPresent);
+            InstallCommand = new RelayCommand
+            (
+                param => Model.PlanAction(LaunchAction.Install),
+                param => State == InstallState.NotPresent
+            );
 
-            UninstallCommand = new RelayCommand(param =>
-            {
-                Model.PlanAction(LaunchAction.Uninstall);
-                isUnstalling = true;
-            },
-            param => State == InstallState.Present);
+            UninstallCommand = new RelayCommand
+            (
+                param =>
+                    {
+                        Model.PlanAction(LaunchAction.Uninstall);
+                        isUnstalling = true;
+                    },
+                param => State == InstallState.Present
+            );
 
-            CancelCommand = new RelayCommand(param =>
-            {
-                Model.LogMessage("Cancelling...");
-                if (State == InstallState.Applying)
+            CancelCommand = new RelayCommand
+            (
+                param =>
                 {
-                    State = InstallState.Cancelled;
-                }
-                else
-                {
-                    BootstrapperProgram.Dispatcher.InvokeShutdown();
-                }
-            },
-            param => State != InstallState.Cancelled);
+                    Model.LogMessage("Cancelling...");
+                    if (State == InstallState.Applying)
+                    {
+                        State = InstallState.Cancelled;
+                    }
+                    else
+                    {
+                        BootstrapperProgram.Dispatcher.InvokeShutdown();
+                    }
+                },
+                param => State != InstallState.Cancelled
+            );
 
             WireUpEventHandlers(Model);
         }

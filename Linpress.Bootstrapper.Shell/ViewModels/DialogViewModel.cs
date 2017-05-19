@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Net;
 using System.Reflection;
 
 namespace Linpress.Bootstrapper.Shell.ViewModels
@@ -56,7 +55,6 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
 
                 return Engine.StringVariables[BurnBundleInstallDirectoryVariable];
             }
-
             set
             {
                 Engine.StringVariables[BurnBundleInstallDirectoryVariable] = value;
@@ -74,7 +72,6 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
 
                 return Engine.StringVariables[BurnBundleLayoutDirectoryVariable];
             }
-
             set
             {
                 Engine.StringVariables[BurnBundleLayoutDirectoryVariable] = value;
@@ -82,13 +79,5 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
         }
 
         public LaunchAction PlannedAction { get; set; }
-
-        public HttpWebRequest CreateWebRequest(string uri)
-        {
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.UserAgent = string.Concat("WixInstall", Version.ToString());
-
-            return request;
-        }
     }
 }
