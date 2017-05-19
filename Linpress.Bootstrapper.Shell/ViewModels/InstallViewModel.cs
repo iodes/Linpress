@@ -11,8 +11,6 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
     public class InstallViewModel : BaseModel
     {
         #region 객체
-        public UpdateState updateState;
-        private InstallState installState;
         private int cacheProgress;
         private int executeProgress;
         private bool isUnstalling = false;
@@ -88,15 +86,6 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
         }
         private bool _Canceled = false;
 
-        public Version Version
-        {
-            get
-            {
-                return _Version;
-            }
-        }
-        private Version _Version = new Version("1.0.0.0");
-
         public string Username
         {
             get
@@ -126,35 +115,10 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             {
                 _Progress = value;
                 RaisePropertyChanged();
-                OnPropertyChanged("Persent");
             }
 
         }
         private int _Progress;
-
-        public string Info
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_Info))
-                {
-                    _Info = InstallEnabled ? "설치 중..." : "진행 중...";
-                }
-
-                return _Info;
-            }
-            set
-            {
-                _Info = value;
-                RaisePropertyChanged();
-            }
-        }
-        private string _Info;
-
-        public string Percent
-        {
-            get { return Progress + "%"; }
-        }
 
         public bool InstallEnabled
         {
@@ -185,6 +149,7 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
         {
             get { return true; }
         }
+
         public bool RepairEnabled
         {
             get { return RepairCommand.CanExecute(this); }
