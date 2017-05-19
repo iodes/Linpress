@@ -45,6 +45,16 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             set
             {
                 _State = value;
+
+                if (State == InstallState.NotPresent)
+                {
+                    Description = "응용 프로그램을 설치할 준비가 되었습니다.\n계속하시면 최종 사용자 사용권 계약을 동의하고 설치를 시작합니다.";
+                }
+                else if (State == InstallState.Present)
+                {
+                    Description = "응용 프로그램을 제거할 준비가 되었습니다.\n계속하시면 장치에서 응용 프로그램이 완전히 제거됩니다.";
+                }
+
                 RaisePropertyChanged();
             }
         }
@@ -455,10 +465,10 @@ namespace Linpress.Bootstrapper.Shell.ViewModels
             UninstallCommand = new RelayCommand
             (
                 param =>
-                    {
-                        Model.PlanAction(LaunchAction.Uninstall);
-                        isUnstalling = true;
-                    },
+                {
+                    Model.PlanAction(LaunchAction.Uninstall);
+                    isUnstalling = true;
+                },
                 param => State == InstallState.Present
             );
 
