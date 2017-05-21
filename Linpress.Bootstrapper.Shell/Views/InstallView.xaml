@@ -3,12 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:Linpress.Bootstrapper.Shell.Controls"
+        xmlns:converters="clr-namespace:Linpress.Bootstrapper.Shell.Converters"
         xmlns:local="clr-namespace:Linpress.Bootstrapper.Shell.Views"
         mc:Ignorable="d"
         Title="Linpress" Height="180" Width="400" Background="#FF1E1E1E" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome UseAeroCaptionButtons="False"/>
+        <WindowChrome CaptionHeight="{Binding ActualHeight, ElementName=GridTop}" UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
 
     <Grid>
@@ -18,18 +20,26 @@
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#FF333337">
+        <Grid x:Name="GridTop" Grid.Row="0" Background="#FF333337">
             <TextBlock Text="Linpress Installer" Foreground="White" VerticalAlignment="Center" Margin="8,0,0,0"/>
-        </Border>
+
+            <controls:ClearButton Command="{Binding CancelCommand}" HorizontalAlignment="Right" Margin="5" Cursor="Hand" WindowChrome.IsHitTestVisibleInChrome="True">
+                <Image Source="/Linpress.Bootstrapper.Shell;component/Images/ImgClose.png"/>
+            </controls:ClearButton>
+        </Grid>
 
         <Grid Grid.Row="1">
             <StackPanel VerticalAlignment="Center">
                 <TextBlock Text="{Binding Description}" TextAlignment="Center" Foreground="White"/>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <Button Content="설치" Command="{Binding InstallCommand}" Width="50" Margin="0,0,10,0"/>
-                    <Button Content="제거" Command="{Binding UninstallCommand}" Width="50" Margin="0,0,10,0"/>
-                    <Button Content="취소" Command="{Binding CancelCommand}" Width="50"/>
+                    <controls:ClearButton Command="{Binding InstallCommand}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={converters:BooleanToVisibilityConverter}}" Cursor="Hand">
+                        <Path Width="25.3333" Height="28.5" Canvas.Left="25.1849" Canvas.Top="23.3542" Stretch="Fill" Fill="White" Data="F1 M 39.8307,37.6042L 36.6641,34.4375L 25.1849,23.3542L 35.4766,23.3542L 50.5182,37.6042L 35.4766,51.8542L 25.1849,51.8542L 36.6641,40.7708L 39.8307,37.6042 Z"/>
+                    </controls:ClearButton>
+
+                    <controls:ClearButton Command="{Binding UninstallCommand}" Visibility="{Binding IsEnabled, RelativeSource={RelativeSource Self}, Converter={converters:BooleanToVisibilityConverter}}" Cursor="Hand">
+                        <Path Width="25.3333" Height="28.5" Canvas.Left="25.1849" Canvas.Top="23.3542" Stretch="Fill" Fill="White" Data="F1 M 39.8307,37.6042L 36.6641,34.4375L 25.1849,23.3542L 35.4766,23.3542L 50.5182,37.6042L 35.4766,51.8542L 25.1849,51.8542L 36.6641,40.7708L 39.8307,37.6042 Z"/>
+                    </controls:ClearButton>
                 </StackPanel>
             </StackPanel>
         </Grid>

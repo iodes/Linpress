@@ -50,8 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\BaseModel.cs" />
+    <Compile Include="Base\BaseValueConverter.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="BootstrapperProgram.cs" />
+    <Compile Include="Controls\ClearButton.xaml.cs">
+      <DependentUpon>ClearButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\BootstrapperApplicationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -83,10 +88,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ClearButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InstallView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ImgClose.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
